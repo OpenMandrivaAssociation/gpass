@@ -10,6 +10,7 @@ License:       GPL
 Group:         Databases
 Source:        http://projects.netlab.jp/gpass/release/%{name}-%{version}.tar.bz2
 
+BuildRoot:     %{_tmppath}/%{name}-%{version}-root
 BuildRequires: libmhash-devel
 BuildRequires: libglade2.0-devel 
 BuildRequires: libmcrypt-devel
