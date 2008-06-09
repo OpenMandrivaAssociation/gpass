@@ -42,9 +42,13 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 %clean
 rm -rf %{buildroot}
 
+%if %mdkversion < 200900
 %post -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %postun -p /sbin/ldconfig
+%endif
 
 %files -f %{name}.lang
 %defattr(-, root, root)
