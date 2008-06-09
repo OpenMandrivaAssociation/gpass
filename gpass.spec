@@ -42,11 +42,9 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 %clean
 rm -rf %{buildroot}
 
-%post
-/sbin/ldconfig
+%post -p /sbin/ldconfig
 
-%postun
-/sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 %files -f %{name}.lang
 %defattr(-, root, root)
