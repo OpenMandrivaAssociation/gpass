@@ -9,7 +9,8 @@ Release:       %release
 License:       GPL
 Group:         Databases
 Source:        http://projects.netlab.jp/gpass/release/%{name}-%{version}.tar.bz2
-
+Patch0: gpass-0.5.1-fix-str-fmt.patch
+Patch1: gpass-0.5.1-link.patch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-root
 BuildRequires: libmhash-devel
 BuildRequires: libglade2.0-devel 
@@ -26,16 +27,17 @@ protected by a master-password.
 
 %prep
 %setup -q
+%patch0 -p0
+%patch1 -p0
 
 %build
-export LDFLAGS="-Wl,--export-dynamic"
 %configure2_5x
 %make 
 
 %install
 rm -rf %{buildroot}
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
-%makeinstall PIXMAPS_DIR=$RPM_BUILD_ROOT/usr/share/pixmaps
+%makeinstall_std
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 %find_lang %name
 
