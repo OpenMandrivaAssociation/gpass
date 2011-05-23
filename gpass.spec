@@ -1,6 +1,6 @@
 %define name gpass
 %define version 0.5.1
-%define release %mkrel 8
+%define release %mkrel 9
 
 Name:          %name
 Summary:       A password manager for the GNOME desktop
