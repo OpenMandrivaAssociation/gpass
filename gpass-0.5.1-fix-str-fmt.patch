@@ -1,0 +1,237 @@
+--- lib/attribute.c.str	2010-02-18 08:53:15.000000000 +0100
++++ lib/attribute.c	2010-02-18 08:53:38.000000000 +0100
+@@ -265,7 +265,7 @@
+     if (error_message != NULL) {
+         GError *error = NULL;
+         
+-        g_set_error(&error, 0, 0, error_message);
++        g_set_error(&error, 0, 0, "%s",error_message);
+         g_free(error_message);
+         return error;
+     }
+@@ -293,7 +293,7 @@
+     if (error_message != NULL) {
+         GError *error = NULL;
+         
+-        g_set_error(&error, 0, 0, error_message);
++        g_set_error(&error, 0, 0, "%s", error_message);
+         g_free(error_message);
+         return error;
+     }
+--- lib/crypt-stream.c.str	2010-02-18 08:53:48.000000000 +0100
++++ lib/crypt-stream.c	2010-02-18 08:54:00.000000000 +0100
+@@ -479,7 +479,7 @@
+     }
+     rc = fwrite(self->buffer, crypt->block_size, 1, crypt->file);
+     if (rc == 0 && ferror(crypt->file)) {
+-        g_set_error(&error, 0, errno, g_strerror(errno));
++        g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+         return error;
+     }
+     return NULL;
+--- lib/error.c.str	2010-02-18 08:58:15.000000000 +0100
++++ lib/error.c	2010-02-18 08:58:26.000000000 +0100
+@@ -52,7 +52,7 @@
+     if (error != NULL) {
+         gpass_error_show_and_exit(error);
+     }
+-    printf(locale_str);
++    printf("%s", locale_str);
+     g_free(utf8_str);
+     g_free(locale_str);
+ }
+--- lib/file.c.str	2010-02-18 08:54:08.000000000 +0100
++++ lib/file.c	2010-02-18 08:56:22.000000000 +0100
+@@ -170,7 +170,7 @@
+     GError *error = NULL;
+ 
+     if ((fp = fopen(path, "r")) == NULL) {
+-        g_set_error(&error, 0, errno, g_strerror(errno));
++        g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+         return error;
+     }
+     error = gpass_decrypt_stream_open(&result, fp, master_password);
+@@ -185,11 +185,11 @@
+         goto end;
+     }
+     if (read_len != MAGIC_PREFIX_LENGTH) {
+-        g_set_error(&error, 0, 0, _("Premature end of file"));
++        g_set_error(&error, 0, 0, "%s", _("Premature end of file"));
+         goto end;
+     }
+     if (memcmp(buf, MAGIC_PREFIX, MAGIC_PREFIX_LENGTH) != 0) {
+-        g_set_error(&error, 0, 0, _("Incorrect password!"));
++        g_set_error(&error, 0, 0, "%s", _("Incorrect password!"));
+         goto end;
+     }
+     error = gpass_decrypt_stream_read(result, buf, FILE_VERSION_LENGTH,
+@@ -198,7 +198,7 @@
+         goto end;
+     }
+     if (read_len != FILE_VERSION_LENGTH) {
+-        g_set_error(&error, 0, 0, _("Premature end of file"));
++        g_set_error(&error, 0, 0, "%s", _("Premature end of file"));
+         goto end;
+     }
+     *version = g_strndup(buf, FILE_VERSION_LENGTH);
+@@ -222,12 +222,12 @@
+     GError *error = NULL;
+ 
+     if ((fp = fopen(path, "w")) == NULL) {
+-        g_set_error(&error, 0, errno, g_strerror(errno));
++        g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+         return error;
+     }
+     fd = fileno(fp);
+     if (fchmod(fd, 0600)) {
+-        g_set_error(&error, 0, errno, g_strerror(errno));
++        g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+         fclose(fp);
+         return error;
+     }
+@@ -265,7 +265,7 @@
+     dirname = g_path_get_dirname(path);
+     if (!g_file_test(dirname, G_FILE_TEST_IS_DIR)) {
+         if (mkdir(dirname, 0700)) {
+-            g_set_error(&error, 0, errno, g_strerror(errno));
++            g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+             goto end;
+         }
+     }
+@@ -322,7 +322,7 @@
+         reader_type = GPASS_TYPE_FILE_100_READER;
+     }
+     else {
+-        g_set_error(&error, 0, 0, _("not support version: %s"), version);
++        g_set_error(&error, 0, 0, "%s", _("not support version: %s"), version);
+         g_free(version);
+         return error;
+     }
+@@ -348,12 +348,12 @@
+     
+     if (g_file_test(backup_path, G_FILE_TEST_EXISTS)) {
+         if (unlink(backup_path) < 0) {
+-            g_set_error(&error, 0, errno, g_strerror(errno));
++            g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+             return error;
+         }
+     }
+     if (rename(self->path, backup_path) == -1) {
+-        g_set_error(&error, 0, errno, g_strerror(errno));
++        g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+     }
+     return error;
+ }
+@@ -365,7 +365,7 @@
+     
+     if (g_file_test(backup_path, G_FILE_TEST_EXISTS)) {
+         if (rename(backup_path, self->path) == -1) {
+-            g_set_error(&error, 0, errno, g_strerror(errno));
++            g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+         }
+     }
+     return error;
+--- lib/file04.c.str	2010-02-18 08:56:31.000000000 +0100
++++ lib/file04.c	2010-02-18 08:58:03.000000000 +0100
+@@ -165,7 +165,7 @@
+     GError *error = NULL;
+ 
+     if ((fp = fopen(path, "r")) == NULL) {
+-        g_set_error(&error, 0, errno, g_strerror(errno));
++        g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+         return error;
+     }
+     error = gpass_decrypt_stream_open(&result, fp, master_password);
+@@ -179,11 +179,11 @@
+         goto end;
+     }
+     if (read_len != sizeof(MAGIC) - 1) {
+-        g_set_error(&error, 0, 0, _("Premature end of file"));
++        g_set_error(&error, 0, 0, "%s", _("Premature end of file"));
+         goto end;
+     }
+     if (strncmp(buf, MAGIC, sizeof(MAGIC) - 1)) {
+-        g_set_error(&error, 0, 0, _("Incorrect password!"));
++        g_set_error(&error, 0, 0, "%s", _("Incorrect password!"));
+         goto end;
+     }
+  end:
+@@ -206,12 +206,12 @@
+     GError *error = NULL;
+ 
+     if ((fp = fopen(path, "w")) == NULL) {
+-        g_set_error(&error, 0, errno, g_strerror(errno));
++        g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+         return error;
+     }
+     fd = fileno(fp);
+     if (fchmod(fd, 0600)) {
+-        g_set_error(&error, 0, errno, g_strerror(errno));
++        g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+         fclose(fp);
+         return error;
+     }
+@@ -244,7 +244,7 @@
+     dirname = g_path_get_dirname(path);
+     if (!g_file_test(dirname, G_FILE_TEST_IS_DIR)) {
+         if (mkdir(dirname, 0700)) {
+-            g_set_error(&error, 0, errno, g_strerror(errno));
++            g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+             goto end;
+         }
+     }
+@@ -308,12 +308,12 @@
+     
+     if (g_file_test(backup_path, G_FILE_TEST_EXISTS)) {
+         if (unlink(backup_path) < 0) {
+-            g_set_error(&error, 0, errno, g_strerror(errno));
++            g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+             return error;
+         }
+     }
+     if (rename(self->path, backup_path) == -1) {
+-        g_set_error(&error, 0, errno, g_strerror(errno));
++        g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+     }
+     return error;
+ }
+@@ -325,7 +325,7 @@
+     
+     if (g_file_test(backup_path, G_FILE_TEST_EXISTS)) {
+         if (rename(backup_path, self->path) == -1) {
+-            g_set_error(&error, 0, errno, g_strerror(errno));
++            g_set_error(&error, 0, errno, "%s", g_strerror(errno));
+         }
+     }
+     return error;
+--- src/attribute-widgets.c.str	2010-02-18 08:59:04.000000000 +0100
++++ src/attribute-widgets.c	2010-02-18 08:59:38.000000000 +0100
+@@ -206,7 +206,7 @@
+     if (error_message != NULL) {
+         GError *error = NULL;
+         
+-        g_set_error(&error, 0, 0, error_message);
++        g_set_error(&error, 0, 0, "%s", error_message);
+         g_free(error_message);
+         return error;
+     }
+@@ -236,7 +236,7 @@
+     if (error_message != NULL) {
+         GError *error = NULL;
+         
+-        g_set_error(&error, 0, 0, error_message);
++        g_set_error(&error, 0, 0, "%s", error_message);
+         g_free(error_message);
+         return error;
+     }
+--- src/helper.c.str	2010-02-18 08:59:50.000000000 +0100
++++ src/helper.c	2010-02-18 09:00:01.000000000 +0100
+@@ -38,7 +38,7 @@
+     str = g_strdup_vprintf(fmt, va);
+     va_end(va);
+     dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+-                                    type, GTK_BUTTONS_CLOSE, str);
++                                    type, GTK_BUTTONS_CLOSE, "%s", str);
+     gtk_dialog_run(GTK_DIALOG(dialog));
+     gtk_widget_destroy(dialog);
+     g_free(str);
