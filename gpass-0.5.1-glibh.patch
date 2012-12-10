@@ -1,0 +1,132 @@
+--- BUILD/gpass-0.5.1/lib/configuration.c.glibh	2006-02-19 15:20:01.000000000 +0300
++++ BUILD/gpass-0.5.1/lib/configuration.c	2012-10-31 14:31:30.595780169 +0400
+@@ -24,7 +24,6 @@
+ #include <glib/gi18n.h>
+ #include <gconf/gconf-client.h>
+ 
+-#include "gpass/error.h"
+ #include "gpass/configuration.h"
+ 
+ #define GCONF_PATH "/apps/gpass"
+--- BUILD/gpass-0.5.1/lib/entry-factory.c.glibh	2006-02-19 15:20:01.000000000 +0300
++++ BUILD/gpass-0.5.1/lib/entry-factory.c	2012-10-31 14:31:30.596780104 +0400
+@@ -26,7 +26,6 @@
+ #include "gpass/configuration.h"
+ #include "folder.h"
+ #include "general-password.h"
+-#include "gpass/error.h"
+ #include "gpass/entry-factory.h"
+ 
+ typedef struct {
+--- BUILD/gpass-0.5.1/lib/error.c.glibh	2012-10-31 14:31:30.560779952 +0400
++++ BUILD/gpass-0.5.1/lib/error.c	2012-10-31 14:31:30.596780104 +0400
+@@ -25,8 +25,6 @@
+ #include <string.h>
+ #include <glib.h>
+ 
+-#include "gpass/error.h"
+-
+ void
+ gpass_error_show_and_exit(GError *error)
+ {
+--- BUILD/gpass-0.5.1/src/attribute-editor.c.glibh	2006-02-19 15:20:01.000000000 +0300
++++ BUILD/gpass-0.5.1/src/attribute-editor.c	2012-10-31 14:31:30.596780104 +0400
+@@ -25,7 +25,6 @@
+ #include <gtk/gtk.h>
+ #include <gnome.h>
+ 
+-#include "gpass/error.h"
+ #include "application.h"
+ #include "attribute-widgets.h"
+ #include "attribute-editor.h"
+--- BUILD/gpass-0.5.1/src/attribute-widgets.c.glibh	2012-10-31 14:31:30.564779980 +0400
++++ BUILD/gpass-0.5.1/src/attribute-widgets.c	2012-10-31 14:31:30.596780104 +0400
+@@ -27,7 +27,6 @@
+ #include <gnome.h>
+ 
+ #include "gpass/configuration.h"
+-#include "gpass/error.h"
+ #include "attribute-widgets.h"
+ #include "password-generator.h"
+ 
+--- BUILD/gpass-0.5.1/src/entry-tree.c.glibh	2006-03-12 14:56:21.000000000 +0300
++++ BUILD/gpass-0.5.1/src/entry-tree.c	2012-10-31 14:31:30.597780070 +0400
+@@ -25,7 +25,6 @@
+ #include <gtk/gtk.h>
+ 
+ #include "gpass/root-entry.h"
+-#include "gpass/error.h"
+ #include "helper.h"
+ #include "application.h"
+ #include "summary.h"
+--- BUILD/gpass-0.5.1/src/helper.c.glibh	2012-10-31 14:31:30.565780059 +0400
++++ BUILD/gpass-0.5.1/src/helper.c	2012-10-31 14:31:30.605780442 +0400
+@@ -23,7 +23,6 @@
+ #include <stdlib.h>
+ #include <glade/glade-xml.h>
+ 
+-#include "gpass/error.h"
+ #include "helper.h"
+ #undef gpass_helper_error
+ 
+--- BUILD/gpass-0.5.1/src/helper.h.glibh	2006-02-19 15:20:01.000000000 +0300
++++ BUILD/gpass-0.5.1/src/helper.h	2012-10-31 14:31:30.605780442 +0400
+@@ -19,7 +19,7 @@
+ #ifndef __GPASS_HELPER_H__
+ #define __GPASS_HELPER_H__
+ 
+-#include <glib/gerror.h>
++#include <glib.h>
+ #include <gtk/gtkmessagedialog.h>
+ 
+ G_BEGIN_DECLS
+--- BUILD/gpass-0.5.1/src/main.c.glibh	2006-02-19 15:56:27.000000000 +0300
++++ BUILD/gpass-0.5.1/src/main.c	2012-10-31 14:31:30.605780442 +0400
+@@ -32,7 +32,6 @@
+ #include <bonobo/bonobo-application.h>
+ #endif
+ 
+-#include "gpass/error.h"
+ #include "gpass/configuration.h"
+ #include "application.h"
+ 
+--- BUILD/gpass-0.5.1/src/preferences.c.glibh	2006-02-19 15:20:01.000000000 +0300
++++ BUILD/gpass-0.5.1/src/preferences.c	2012-10-31 14:31:30.605780442 +0400
+@@ -25,7 +25,6 @@
+ 
+ #include "gpass/configuration.h"
+ #include "gpass/entry-factory.h"
+-#include "gpass/error.h"
+ #include "application.h"
+ #include "preferences.h"
+ 
+--- BUILD/gpass-0.5.1/src/summary.c.glibh	2006-02-19 15:20:01.000000000 +0300
++++ BUILD/gpass-0.5.1/src/summary.c	2012-10-31 14:31:30.605780442 +0400
+@@ -26,7 +26,6 @@
+ #include <gnome.h>
+ 
+ #include "gpass/configuration.h"
+-#include "gpass/error.h"
+ #include "application.h"
+ #include "summary.h"
+ 
+--- BUILD/gpass-0.5.1/src/window.c.glibh	2006-03-14 17:42:35.000000000 +0300
++++ BUILD/gpass-0.5.1/src/window.c	2012-10-31 14:31:30.606784145 +0400
+@@ -27,7 +27,6 @@
+ 
+ #include "gpass/configuration.h"
+ #include "gpass/password.h"
+-#include "gpass/error.h"
+ #include "helper.h"
+ #include "entry-tree.h"
+ #include "summary.h"
+--- BUILD/gpass-0.5.1/tools/gpass-convert.c.glibh	2006-02-19 15:20:01.000000000 +0300
++++ BUILD/gpass-0.5.1/tools/gpass-convert.c	2012-10-31 14:33:54.626801137 +0400
+@@ -33,7 +33,6 @@
+ #include "gpass/entry-factory.h"
+ #include "gpass/file04.h"
+ #include "gpass/file.h"
+-#include "gpass/error.h"
+ 
+ static GError *
+ read_file_044(const gchar *path, const gchar *password, GPassEntry **entries)
