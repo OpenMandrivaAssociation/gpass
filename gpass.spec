@@ -12,6 +12,11 @@ Source0:        http://projects.netlab.jp/gpass/release/%{name}-%{version}.tar.b
 Patch0: gpass-0.5.1-fix-str-fmt.patch
 Patch1: gpass-0.5.1-link.patch
 Patch2:	gpass-0.5.1-glibh.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires: libmhash-devel
 BuildRequires: pkgconfig(libglade-2.0) 
 BuildRequires: libmcrypt-devel
